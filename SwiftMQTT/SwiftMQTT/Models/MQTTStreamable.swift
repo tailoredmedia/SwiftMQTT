@@ -84,49 +84,7 @@ extension Data: MQTTStreamable {
             } while writeLength < totalLength
             return 0
         }
-        return writeLength == totalLength
-    }
-}
-
-/*
-
-// TODO: create a file strategy for large messages
-
-extension FileHandle: MQTTStreamable {
-
-    static let chunkSize: Int = 1024 * 64
-
-    private func read(from read: StreamReader, totalLength: UInt64) -> Bool {
-        var readLength: UInt64 = 0
-        repeat {
-            if let data = Data(len: FileHandle.chunkSize, from: read) {
-                self.write(data)
-                readLength += UInt64(FileHandle.chunkSize)
-            }
-            else {
-                break
-            }
-        } while readLength == totalLength
-        return readLength == totalLength
-    }
-    
-    func write(to write: StreamWriter) -> Bool {
-        let totalLength = self.seekToEndOfFile()
-        self.seek(toFileOffset: 0)
-        guard totalLength <= 128*128*128 else { return false }
-        var writeLength: UInt64 = 0
         
-        repeat {
-            let data = self.readData(ofLength: FileHandle.chunkSize)
-            if data.count == 0 {
-                break
-            }
-            if data.write(to: write) == false {
-                break
-            }
-            writeLength += UInt64(data.count)
-        } while writeLength < totalLength
         return writeLength == totalLength
     }
 }
-*/
